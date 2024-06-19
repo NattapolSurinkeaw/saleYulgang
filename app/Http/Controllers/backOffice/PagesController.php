@@ -10,7 +10,11 @@ class PagesController extends Controller
 {
     //
     public function index() {
-        return Inertia::render('HomePage');
+        return Inertia::render('Dashboard');
+    }
+
+    public function home() {
+        return Inertia::render('managePage/Page');
     }
 
     public function test() {

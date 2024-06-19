@@ -35,8 +35,11 @@ export default function MainLayout({ children }) {
                                     </div>
                                     {submenu.menu_list?.length > 0 && (
                                         <ul className="flex flex-col gap-1 pl-10">
-                                            <li><GradeIcon /> Home1</li>
-                                            <li><GradeIcon /> Home2</li>
+                                            {submenu.menu_list.map((list, index) => (
+                                                <li key={index} className="flex gap-1 pl-4">
+                                                    <GradeIcon /> {list.list_name}
+                                                </li>
+                                            ))}
                                         </ul>
                                     )}
                                    </>
@@ -53,7 +56,7 @@ export default function MainLayout({ children }) {
                     Navbar
                 </div>
                 <div>
-                    <Link href={route('logout')} method="POST">ออกจากระบบ</Link>
+                    {/* <Link href={route('logout')} method="POST">ออกจากระบบ</Link> */}
                 </div>
             </div>
             <div className="bg-white rounded-[10px] p-4 shadow-lg">

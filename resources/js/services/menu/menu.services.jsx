@@ -10,13 +10,13 @@ export const menuData = [
         id: 1,
         name: "Dashboard",
         icon: <DashboardIcon />,
-        link: "/dashboard",
+        link: "/backoffice/dashboard",
       },
       {
         id: 2,
         name: "HomePage",
         icon: <HomeIcon />,
-        link: "/dashboard",
+        link: "/backoffice/home",
         menu_list: [
           {
             id:1,

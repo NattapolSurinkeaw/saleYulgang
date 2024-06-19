@@ -20,10 +20,12 @@ Route::get('/backoffice', function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('backoffice/home', [BackOfficePagesController::class, 'index']);
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('backoffice/home', [BackOfficePagesController::class, 'index']);
+    Route::get('backoffice/test', [BackOfficePagesController::class, 'test'])->name("test");
+    Route::get('backoffice/page', [BackOfficePagesController::class, 'managePage']);
 });
 
 // Route::get('/dashboard', function () {

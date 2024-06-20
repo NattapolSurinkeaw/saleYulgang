@@ -39,7 +39,7 @@ export const menuData = [
     main_menu : "Content",
     sub_menu : [
       {
-        id: 2,
+        id: 3,
         name: "ManageContent",
         icon: <DashboardIcon />,
         link: "/backoffice/page"
@@ -48,6 +48,14 @@ export const menuData = [
   },
   {
     id: 3,
-    main_menu : "Menu",
+    main_menu : "User",
+    sub_menu : [
+      {
+        id: 4,
+        name: "ManageProfile",
+        icon: <DashboardIcon />,
+        link: "/backoffice/profile"
+      }
+    ]
   },
 ]

@@ -8,7 +8,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import GradeIcon from '@mui/icons-material/Grade';
 import { menuData } from '@/services/menu/menu.services';
 
-export default function MainLayout({ children }) {
+export default function MainLayout({ children, auth }) {
     // console.log(menuData)
     const [showList, setShowList] = useState(false);
   return (
@@ -18,7 +18,7 @@ export default function MainLayout({ children }) {
             <div className="">
                 {
                     menuData.map((menu) => (
-                        <div className="flex flex-col gap-2 mb-4">
+                        <div key={menu.id} className="flex flex-col gap-2 mb-4">
                             <div className="flex gap-2 text-[#bcbfc1]">
                                 <div className="">=</div>
                                 <p className="">{menu.main_menu}</p>
@@ -26,7 +26,7 @@ export default function MainLayout({ children }) {
 
                             { 
                                 menu.sub_menu?.map((submenu) => (
-                                   <>
+                                   <div key={submenu.id}>
                                     <div className="px-4">
                                         <Link href={submenu.link} className="flex items-center px-2 gap-2 h-[40px] hover:bg-[#e7e7ff] rounded-[10px] text-[#adacfb] font-bold">
                                             {submenu.icon} {submenu.name}
@@ -35,14 +35,14 @@ export default function MainLayout({ children }) {
                                     </div>
                                     {submenu.menu_list?.length > 0 && (
                                         <ul className="flex flex-col gap-1 pl-10">
-                                            {submenu.menu_list.map((list, index) => (
-                                                <li key={index} className="flex gap-1 pl-4">
+                                            {submenu.menu_list.map((list) => (
+                                                <li key={list.id} className="flex gap-1 pl-4">
                                                     <GradeIcon /> {list.list_name}
                                                 </li>
                                             ))}
                                         </ul>
                                     )}
-                                   </>
+                                   </div>
                                 ))
                             }
                         </div>
@@ -57,9 +57,11 @@ export default function MainLayout({ children }) {
                 </div>
                 <div>
                     {/* <Link href={route('logout')} method="POST">ออกจากระบบ</Link> */}
+                    {console.log(auth)}
+                    <img src={auth?.profile_img} className='w-10 h-10 rounded-full' alt="" />
                 </div>
             </div>
-            <div className="bg-white rounded-[10px] p-4 shadow-lg">
+            <div className="bg-white rounded-[10px] p-4 shadow-lg h-screen overflow-auto">
                 {children}
             </div>
         </div>

@@ -24,4 +24,8 @@ class PagesController extends Controller
     public function managePage() {
         return Inertia::render('managePage/Page');
     }
+
+    public function manageProfile() {
+        return Inertia::render('Profile/Edit');
+    }
 }

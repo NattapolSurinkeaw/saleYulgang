@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('backoffice/home', [BackOfficePagesController::class, 'home']);
     Route::get('backoffice/test', [BackOfficePagesController::class, 'test'])->name("test");
     Route::get('backoffice/page', [BackOfficePagesController::class, 'managePage']);
+    Route::get('backoffice/profile', [BackOfficePagesController::class, 'manageProfile']);
 });
 
 // Route::get('/dashboard', function () {

@@ -8,7 +8,7 @@ export default function HomePage({auth}) {
     <>
       <Head title="Dashboard" />
       
-      <MainLayout>
+      <MainLayout auth={auth}>
         <div>HomePage</div>
 
       </MainLayout>

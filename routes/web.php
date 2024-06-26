@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('backoffice/test', [BackOfficePagesController::class, 'test'])->name("test");
     Route::get('backoffice/page', [BackOfficePagesController::class, 'managePage']);
     Route::get('backoffice/profile', [BackOfficePagesController::class, 'manageProfile']);
+    Route::get('backoffice/category', [BackOfficePagesController::class, 'manageCategory']);
 });
 
 // Route::get('/dashboard', function () {
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/editprofile', [ProfileController::class, 'editProfile']);
 });
 
 require __DIR__.'/auth.php';

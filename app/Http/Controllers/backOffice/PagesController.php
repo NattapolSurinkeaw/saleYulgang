@@ -28,4 +28,8 @@ class PagesController extends Controller
     public function manageProfile() {
         return Inertia::render('Profile/Edit');
     }
+
+    public function manageCategory() {
+        return Inertia::render('manageCategory/CategoryPage');
+    }
 }

@@ -1,10 +1,11 @@
 import React from 'react'
 import MainLayout from '@/Layouts/MainLayout'
 
-export default function Page() {
+export default function Page({auth}) {
+  console.log(auth)
   return (
-    <MainLayout>
-      Page
+    <MainLayout auth={auth}>
+      Page 
     </MainLayout>
   )
 }

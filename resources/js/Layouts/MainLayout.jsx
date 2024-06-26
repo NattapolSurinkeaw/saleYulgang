@@ -7,10 +7,12 @@ import HomeIcon from '@mui/icons-material/Home';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import GradeIcon from '@mui/icons-material/Grade';
 import { menuData } from '@/services/menu/menu.services';
+import ModalProfile from '@/Components/modalProfile/ModalProfile';
 
 export default function MainLayout({ children, auth }) {
     // console.log(menuData)
     const [showList, setShowList] = useState(false);
+    const [modalProfile, setModalProfile] = useState(false);
   return (
     <div className="bg-[#f5f4f9] flex gap-5 h-screen">
         <div className="bg-white w-[290px] max-sm:w-[0px] overflow-hidden duration-300 shadow-lg">
@@ -24,25 +26,30 @@ export default function MainLayout({ children, auth }) {
                                 <p className="">{menu.main_menu}</p>
                             </div>
 
+                            {/* main menu  */}
                             { 
                                 menu.sub_menu?.map((submenu) => (
-                                   <div key={submenu.id}>
+                                submenu.status_display && (
+                                    <div key={submenu.id}>
                                     <div className="px-4">
                                         <Link href={submenu.link} className="flex items-center px-2 gap-2 h-[40px] hover:bg-[#e7e7ff] rounded-[10px] text-[#adacfb] font-bold">
-                                            {submenu.icon} {submenu.name}
-                                            {submenu.menu_list?.length > 0 && <KeyboardArrowRightIcon className="ml-auto" />}
+                                        {submenu.icon} {submenu.name}
+                                        {submenu.menu_list?.length > 0 && <KeyboardArrowRightIcon className="ml-auto" />}
                                         </Link>
                                     </div>
+                                    {/* sub menu  */}
                                     {submenu.menu_list?.length > 0 && (
                                         <ul className="flex flex-col gap-1 pl-10">
-                                            {submenu.menu_list.map((list) => (
-                                                <li key={list.id} className="flex gap-1 pl-4">
-                                                    <GradeIcon /> {list.list_name}
-                                                </li>
-                                            ))}
+                                        {/* list sub menu  */}
+                                        {submenu.menu_list.map((list) => (
+                                            <li key={list.id} className="flex gap-1 pl-4">
+                                            <GradeIcon /> {list.list_name}
+                                            </li>
+                                        ))}
                                         </ul>
                                     )}
-                                   </div>
+                                    </div>
+                                )
                                 ))
                             }
                         </div>
@@ -55,10 +62,10 @@ export default function MainLayout({ children, auth }) {
                 <div>
                     Navbar
                 </div>
-                <div>
-                    {/* <Link href={route('logout')} method="POST">ออกจากระบบ</Link> */}
-                    {console.log(auth)}
-                    <img src={auth?.profile_img} className='w-10 h-10 rounded-full' alt="" />
+                <div className="flex gap-2 items-center relative">
+                    <p>{auth?.user.name}</p>
+                    <ModalProfile modalProfile={modalProfile} auth={auth} />
+                    <img src={`/${(auth?.user.profile_img)?auth?.user.profile_img : "image/emptyProfile.jpg"}`} className='w-10 h-10 rounded-full cursor-pointer' alt="" onClick={() => setModalProfile(!modalProfile)} />
                 </div>
             </div>
             <div className="bg-white rounded-[10px] p-4 shadow-lg h-screen overflow-auto">

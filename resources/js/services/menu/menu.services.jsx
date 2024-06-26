@@ -11,12 +11,14 @@ export const menuData = [
         name: "Dashboard",
         icon: <DashboardIcon />,
         link: "/backoffice/dashboard",
+        status_display: true,
       },
       {
         id: 2,
         name: "HomePage",
         icon: <HomeIcon />,
         link: "/backoffice/home",
+        status_display: true,
         menu_list: [
           {
             id:1,
@@ -32,6 +34,13 @@ export const menuData = [
           },
         ]
       },
+      {
+        id: 5,
+        name: "MangeCategory",
+        icon: <DashboardIcon />,
+        link: "/backoffice/category",
+        status_display: true,
+      },
     ]
   },
   {
@@ -42,7 +51,8 @@ export const menuData = [
         id: 3,
         name: "ManageContent",
         icon: <DashboardIcon />,
-        link: "/backoffice/page"
+        link: "/backoffice/page",
+        status_display: true,
       }
     ]
   },
@@ -54,7 +64,8 @@ export const menuData = [
         id: 4,
         name: "ManageProfile",
         icon: <DashboardIcon />,
-        link: "/backoffice/profile"
+        link: "/backoffice/profile",
+        status_display: false,
       }
     ]
   },

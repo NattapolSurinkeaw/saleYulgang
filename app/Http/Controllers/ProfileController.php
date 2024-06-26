@@ -60,4 +60,18 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+    public function editProfile(Request $request) {
+        $user = $request->user();
+        $file = $request->file('image');  
+        $newFolder = "upload/profile/" . date('Y') . "/" . date('m') . "/" . date('d') . "/";
+        $thumbnail = (isset($file)) ? $this->uploadImage($newFolder, $file, "", "", time()) : "";
+        $user->profile_img = $thumbnail;
+        $user->save();
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ], 201);
+    }
 }

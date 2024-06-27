@@ -6,6 +6,9 @@ const closeModal = document.querySelector('#closeModal');
 openModal.addEventListener('click', () => {
   modalContainer.classList.remove('hidden');
 })
+modalContainer.addEventListener('click', () => {
+  modalContainer.classList.add('hidden');
+})
 
 closeModal.addEventListener('click', () => {
   modalContainer.classList.add('hidden');

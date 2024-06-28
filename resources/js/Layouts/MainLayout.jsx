@@ -13,9 +13,10 @@ export default function MainLayout({ children, auth }) {
     // console.log(menuData)
     const [showList, setShowList] = useState(false);
     const [modalProfile, setModalProfile] = useState(false);
+    const [handleNav, setHandleNav] = useState(true);
   return (
     <div className="bg-[#f5f4f9] flex gap-5 h-screen">
-        <div className="bg-white w-[290px] max-sm:w-[0px] overflow-hidden duration-300 shadow-lg">
+        <div className={`bg-white ${handleNav ? 'w-[290px]': 'w-[0px]'} overflow-hidden duration-300 shadow-lg`}>
             <h1 className="py-6 text-2xl font-bold text-green-500 text-center">PHP ADMIN </h1>
             <div className="">
                 {
@@ -60,7 +61,7 @@ export default function MainLayout({ children, auth }) {
         <div className="w-10/12 max-md:w-[90%] mt-2 flex flex-col gap-5">
             <div className="bg-white h-[65px] rounded-[10px] px-4 flex justify-between items-center shadow-lg">
                 <div>
-                    Navbar
+                    <button onClick={() => setHandleNav(!handleNav)}>กด</button>
                 </div>
                 <div className="flex gap-2 items-center relative">
                     <p>{auth?.user.name}</p>
@@ -68,7 +69,7 @@ export default function MainLayout({ children, auth }) {
                     <img src={`/${(auth?.user.profile_img)?auth?.user.profile_img : "image/emptyProfile.jpg"}`} className='w-10 h-10 rounded-full cursor-pointer' alt="" onClick={() => setModalProfile(!modalProfile)} />
                 </div>
             </div>
-            <div className="bg-white rounded-[10px] p-4 shadow-lg h-screen overflow-auto">
+            <div className="p-4 bg-white rounded-[10px] shadow-lg h-screen overflow-auto">
                 {children}
             </div>
         </div>

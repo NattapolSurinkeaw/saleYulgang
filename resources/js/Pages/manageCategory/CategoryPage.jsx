@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import MainLayout from '@/Layouts/MainLayout'
 import { menuData } from '@/services/menu/menu.services'
 import Modal from '@/Components/modalGlobal/Modal';
-import SecondaryButton from '@/Components/SecondaryButton';
 import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function CategoryPage({auth}) {
   const [fillter, setFillter] = useState(1);
   const [handlemodal, setHandleModal] = useState(false);
+
+  const summitData = (title) => {
+    console.log(title)
+  }
   return (
     <MainLayout auth={auth}>
       <h1 className="mb-4">Category {fillter}</h1>
@@ -37,14 +40,15 @@ export default function CategoryPage({auth}) {
           </div>
         ))}
       </div>
-      <Modal handle={handlemodal} csscls="max-lg:w-[400px] max-lg:h-full w-[850px] h-[600px]" setHandleModal={setHandleModal} content={contentModel()}/>
+      <Modal handle={handlemodal} title="Edit Category" summitData={summitData} csscls="max-lg:w-[400px] max-lg:h-full w-[850px] h-[600px]" setHandleModal={setHandleModal} content={contentModel(summitData)}/>
     </MainLayout>
   )
 }
 
-export function contentModel() {
+export function contentModel(summitData) {
   const [title, setTitle] = useState("d");
-
+  
+  summitData(title)
   const submit = () => {
     console.log(title)
   }
@@ -64,20 +68,25 @@ export function contentModel() {
           <div className="w-full flex flex-col gap-4 p-2">
             <div className="p-4 border rounded-md flex gap-4">
               <div className="w-[150px] h-[122px] border p-1 hover:scale-[0.95] duration-300 cursor-pointer">
-                <img className="w-full h-full rounded-sm" src="/image/no-image.png" alt="" />
+                <label htmlFor="imageCate">
+                  <img className="w-full h-full rounded-sm" src="/image/no-image.png" alt="" />
+                </label>
+                <input id="imageCate" type="file" className="hidden" />
               </div>
               <div className="flex flex-col gap-2">
                 <input 
                   className="w-full focus-none rounded-md" 
-                  value={title} 
-                  onChange={(e) => setTitle(e.target.value) }
                   placeholder="Title" type="text" />
                 <input className="w-full focus-none rounded-md" placeholder="alt" type="text" />
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="">ลายละเอียด</label>
-              <input className="w-full focus-none rounded-md" placeholder="Title" type="text" />
+              <input 
+                value={title} 
+                onChange={(e) => setTitle(e.target.value) }
+                className="w-full focus-none rounded-md" 
+                placeholder="Title" type="text" />
               <input className="w-full focus-none rounded-md" placeholder="Description" type="text" />
               <input className="w-full focus-none rounded-md" placeholder="Keyword" type="text" />
               <input className="w-full focus-none rounded-md" placeholder="Slug" type="text" />

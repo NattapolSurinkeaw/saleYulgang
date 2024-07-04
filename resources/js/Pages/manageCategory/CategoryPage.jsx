@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import MainLayout from '@/Layouts/MainLayout'
 import { menuData } from '@/services/menu/menu.services'
 import Modal from '@/Components/modalGlobal/Modal';
+import SecondaryButton from '@/Components/SecondaryButton';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function CategoryPage({auth}) {
   const [fillter, setFillter] = useState(1);
@@ -35,17 +37,70 @@ export default function CategoryPage({auth}) {
           </div>
         ))}
       </div>
-      <Modal handle={handlemodal} csscls="w-[470px] h-[220px]" setHandleModal={setHandleModal} content={contentModel()}/>
+      <Modal handle={handlemodal} csscls="max-lg:w-[400px] max-lg:h-full w-[850px] h-[600px]" setHandleModal={setHandleModal} content={contentModel()}/>
     </MainLayout>
   )
 }
 
 export function contentModel() {
+  const [title, setTitle] = useState("d");
+
+  const submit = () => {
+    console.log(title)
+  }
   return(
     <>
-      <div className="w-full flex">
-        <input type="text" />
-        <input type="text" />
+      <div className="w-full h-[480px] overflow-auto border">
+        <div className='p-3 flex max-lg:flex-col gap-4 '>
+          <div className="border w-[200px] p-2 rounded-md">
+            <h3 className="mb-4">all category</h3>
+            <div>
+              <div className="flex items-center gap-1">
+                <input type="checkbox" id="checkcate" />
+                <label htmlFor="checkcate">หมวดหมู่ที่ 1</label>
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex flex-col gap-4 p-2">
+            <div className="p-4 border rounded-md flex gap-4">
+              <div className="w-[150px] h-[122px] border p-1 hover:scale-[0.95] duration-300 cursor-pointer">
+                <img className="w-full h-full rounded-sm" src="/image/no-image.png" alt="" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <input 
+                  className="w-full focus-none rounded-md" 
+                  value={title} 
+                  onChange={(e) => setTitle(e.target.value) }
+                  placeholder="Title" type="text" />
+                <input className="w-full focus-none rounded-md" placeholder="alt" type="text" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="">ลายละเอียด</label>
+              <input className="w-full focus-none rounded-md" placeholder="Title" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="Description" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="Keyword" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="Slug" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="Link" type="text" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="">Web SEO</label>
+              <input className="w-full focus-none rounded-md" placeholder="Title" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="Description" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="Keyword" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="h1" type="text" />
+              <input className="w-full focus-none rounded-md" placeholder="h2" type="text" />
+            </div>
+
+            <div>
+              <p>ตั้งหมวด category</p>
+              <div>
+                <label htmlFor=""></label>
+                <PrimaryButton onClick={() => submit()} className='bg-blue-500' children="ปุ่ม" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )

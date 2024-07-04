@@ -1,26 +1,28 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+import defaultTheme from "tailwindcss/defaultTheme";
+import forms from "@tailwindcss/forms";
+import svgr from "vite-plugin-svgr";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: 'class',
-    content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        './resources/js/**/*.jsx',
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-    ],
+  darkMode: "class", // Defind darkmode in class
+  content: [
+    "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+    "./storage/framework/views/*.php",
+    "./resources/views/**/*.blade.php",
+    "./resources/js/**/*.jsx",
+    "./resources/js/**/*.js",
+  ],
 
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+      },
     },
+  },
 
-    plugins: [forms],
+  plugins: [
+    forms,
+    svgr(),
+  ],
 };

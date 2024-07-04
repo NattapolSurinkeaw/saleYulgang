@@ -9,17 +9,18 @@ use App\Http\Controllers\frontOffice\PagesController as FrontOfficePagesControll
 
 Route::get('/', [FrontOfficePagesController::class, 'index']);
 
-Route::get('/backoffice', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/backoffice', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/backoffice', [BackOfficePagesController::class, 'index']);
     // Route::get('/dashboard', function () {
     //     return Inertia::render('Dashboard');
     // })->name('dashboard');

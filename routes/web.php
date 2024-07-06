@@ -18,23 +18,19 @@ Route::get('/', [FrontOfficePagesController::class, 'index']);
 //     ]);
 // });
 
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/backoffice', [BackOfficePagesController::class, 'index']);
-    // Route::get('/dashboard', function () {
+// Route::get('/dashboard', function () {
     //     return Inertia::render('Dashboard');
     // })->name('dashboard');
-    Route::get('backoffice/dashboard', [BackOfficePagesController::class, 'index'])->name('dashboard');
-    Route::get('backoffice/home', [BackOfficePagesController::class, 'home']);
-    Route::get('backoffice/test', [BackOfficePagesController::class, 'test'])->name("test");
-    Route::get('backoffice/page', [BackOfficePagesController::class, 'managePage']);
-    Route::get('backoffice/profile', [BackOfficePagesController::class, 'manageProfile']);
-    Route::get('backoffice/category', [BackOfficePagesController::class, 'manageCategory']);
-});
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('/backoffice')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [BackOfficePagesController::class, 'index']);
+    Route::get('/dashboard', [BackOfficePagesController::class, 'index'])->name('dashboard');
+    Route::get('/home', [BackOfficePagesController::class, 'home']);
+    Route::get('/test', [BackOfficePagesController::class, 'test'])->name("test");
+    Route::get('/page', [BackOfficePagesController::class, 'managePage']);
+    Route::get('/profile', [BackOfficePagesController::class, 'manageProfile']);
+    Route::get('/category', [BackOfficePagesController::class, 'manageCategory']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

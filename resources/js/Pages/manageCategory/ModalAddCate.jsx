@@ -6,6 +6,11 @@ import Switch from '@mui/material/Switch';
 // import Typography from '@mui/material/Typography';
 // import PrimaryButton from '@/Components/PrimaryButton';
 import { useState, useRef } from 'react';
+import { svPostCate } from '@/services/menu/menu.services';
+import TextInput from '@/Components/TextInput';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const style = {
@@ -20,9 +25,10 @@ const style = {
   borderRadius: 1,
 };
 
-export default function ModalAddCate({open, handleOpen, handleClose}) {
+export default function ModalAddCate({open, handleOpen, handleClose, cateData, setCateData}) {
   const ImageRef = useRef([]);
-  const [imagePreview, setImagePreview] = useState();
+  const [category, setCategory] = useState([]);
+  const [imagePreview, setImagePreview] = useState("/image/no-image.png");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -33,18 +39,20 @@ export default function ModalAddCate({open, handleOpen, handleClose}) {
   const [metaKeyword, setMetaKeyword] = useState("");
   const [metaH1, setMetaH1] = useState("");
   const [metaH2, setMetaH2] = useState("");
-
+  const [priority, setPriority] = useState(1);
+  const [statusDisplay, setStatusDisplay] = useState(true);
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
       setImagePreview(imageURL);
-
-      // setFormData((prevState) => ({
-      //   ...prevState,
-      //   image: [file],
-      // }));
     }
+  };
+
+  const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    setCategory([selectedValue]); // อัปเดต state ให้เป็น array ที่มีค่า selectedValue
   };
 
   const submit = () => {
@@ -55,12 +63,27 @@ export default function ModalAddCate({open, handleOpen, handleClose}) {
     formData.append("keyword", keyword);
     formData.append("slug", slug);
     formData.append("link", link);
+    formData.append("cate", category);
     formData.append("meta_title", metaTitle);
     formData.append("meta_description", metaDescription);
     formData.append("meta_keyword", metaKeyword);
     formData.append("meta_h1", metaH1);
     formData.append("meta_h2", metaH2);
+    formData.append("priority", priority);
     formData.append("imageCate", ImageRef.current.files[0]);
+    formData.append("status_display", statusDisplay);
+
+    formData.forEach((value, key) => {
+      console.log(key, " : ", value);
+    });
+
+    svPostCate(formData).then((res) => {
+      console.log(res.data.status)
+      if(res.data.status == 'success') {
+        setCateData(prevCateData => [...prevCateData, res.data.data]);
+        handleClose()
+      }
+    })
   }
   return (
     <>
@@ -79,15 +102,32 @@ export default function ModalAddCate({open, handleOpen, handleClose}) {
         <div className="w-full h-[480px] overflow-auto border">
           <div className='p-3 flex max-lg:flex-col gap-4 '>
             <div className="border w-[250px] p-2 rounded-md">
-              <h3 className="mb-4">all category</h3>
-              <div>
+              <h3 className="mb-4">All Category</h3>
+              {/* <div>
                 <div className="flex items-center gap-1">
-                  <Checkbox {...label} />
+                  <Checkbox value="1" onClick={handleCheckboxClick} {...label} />
+                  <label htmlFor="checkcate">หมวดหมู่หลัก</label>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Checkbox value="2" onClick={handleCheckboxClick} {...label} />
                   <label htmlFor="checkcate">หมวดหมู่ที่ 1</label>
                 </div>
-              </div>
+              </div> */}
+               <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="category"
+                  name="radio-buttons-group"
+                  onChange={handleRadioChange}
+                >
+                  <FormControlLabel value="0" control={<Radio />} label="หมวดหมู่หลัก" />
+                  { 
+                    cateData.map((cate) => (
+                      <FormControlLabel key={cate.id} value={cate.id} control={<Radio />} label={`หมวดหมู่ ${cate.title}`}/>
+                    ))
+                  }
+                </RadioGroup>
             </div>
-            <div className="w-full flex flex-col gap-4 p-2">
+            <div className="w-full flex flex-col gap-4">
               <div className="p-4 border rounded-md flex gap-4">
                 <div className="w-[150px] h-[122px] border p-1 hover:scale-[0.95] duration-300 cursor-pointer">
                   <label htmlFor="imageCate">
@@ -170,20 +210,34 @@ export default function ModalAddCate({open, handleOpen, handleClose}) {
                   className="w-full focus-none rounded-md" 
                   placeholder="h1" type="text" 
                 />
-                <input 
+                <TextInput 
                   value={metaH2}
                   onChange={(e) => setMetaH2(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="h2" type="text" 
+                  placeholder="h2"
                 />
               </div>
 
               <div>
-                <p>ตั้งหมวด category</p>
+                <p className="mb-2">ตั้งหมวด category</p>
                 <div className="flex gap-4">
                   <div className="w-24 p-1 border flex items-center flex-col gap-2">
                     <label htmlFor="">แสดงผล</label>
-                    <Switch {...label} defaultChecked />
+                    <Switch
+                      checked={statusDisplay}
+                      onChange={(e) => setStatusDisplay(e.target.checked)}
+                      {...label}
+                      defaultChecked={statusDisplay}
+                    />
+                  </div>
+
+                  <div className="w-24 p-1 border flex items-center flex-col gap-2">
+                    <label htmlFor="">priority</label>
+                    <TextInput 
+                      style={{width: '100%'}}
+                      type="number" min="0"
+                      value={priority}
+                      onChange={(e) => setPriority(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>

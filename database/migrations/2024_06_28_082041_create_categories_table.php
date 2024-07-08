@@ -19,14 +19,16 @@ return new class extends Migration
             $table->string('slug');
             $table->string('icon')->nullable();
             $table->string('link')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('parent_id');
             $table->integer('position');
-            $table->boolean('status_display');
-            $table->integer('priority');
             $table->string('meta_title')->nullable();
-            $table->string('meta_keywords')->nullable();
             $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
             $table->string('h1')->nullable();
             $table->string('h2')->nullable();
+            $table->integer('priority');
+            $table->boolean('status_display');
             $table->timestamps();
         });
 

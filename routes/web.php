@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\frontOffice\PagesController as FrontOfficePagesController;
+use App\Http\Controllers\backoffice\api\ApiController;
 
 Route::get('/', [FrontOfficePagesController::class, 'index']);
 
@@ -38,5 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/editprofile', [ProfileController::class, 'editProfile']);
 });
+
+// api
+Route::get('/getCate', [ApiController::class, 'getCatetegory']);
+Route::post('/postcate', [ApiController::class, 'createCatetegory']);
+Route::delete('/deleteCate/{id}', [ApiController::class, 'deleteCategory']);
 
 require __DIR__.'/auth.php';

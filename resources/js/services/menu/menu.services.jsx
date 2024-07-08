@@ -1,5 +1,6 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
+import axios from 'axios';
 
 export const menuData = [
   {
@@ -70,3 +71,15 @@ export const menuData = [
     ]
   },
 ]
+
+export const svPostCate = (param) => {
+  return axios.post('/postcate', param).then((res) => res).catch((error) => error)
+}
+
+export const svGetCate = () => {
+  return axios.get('/getCate').then((res) => res).catch((error) => error)
+}
+
+export const svDeleteCate = (id) => {
+  return axios.delete(`/deleteCate/${id}`).then((res) => res).catch((error) => error)
+}

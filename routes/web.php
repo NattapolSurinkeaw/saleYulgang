@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 // api
 Route::get('/getCate', [ApiController::class, 'getCatetegory']);
 Route::post('/postcate', [ApiController::class, 'createCatetegory']);
+Route::get('/getCateId/{id}', [ApiController::class, 'getCateById']);
 Route::delete('/deleteCate/{id}', [ApiController::class, 'deleteCategory']);
 
 require __DIR__.'/auth.php';

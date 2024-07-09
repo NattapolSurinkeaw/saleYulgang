@@ -5,8 +5,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
 // import Typography from '@mui/material/Typography';
 // import PrimaryButton from '@/Components/PrimaryButton';
-import { useState, useRef } from 'react';
-import { svPostCate } from '@/services/menu/menu.services';
+import { useState, useRef, useEffect } from 'react';
+import { svGetCateById } from '@/services/menu/menu.services';
 import TextInput from '@/Components/TextInput';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -25,7 +25,7 @@ const style = {
   borderRadius: 1,
 };
 
-export default function ModalAddCate({open, handleOpen, handleClose, cateData, setCateData}) {
+export default function ModalEditCate({open, handleOpen, handleClose, cateData, setCateData, slcEdit}) {
   const ImageRef = useRef([]);
   const [category, setCategory] = useState([]);
   const [imagePreview, setImagePreview] = useState("/image/no-image.png");
@@ -41,9 +41,32 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
   const [metaH2, setMetaH2] = useState("");
   const [priority, setPriority] = useState(1);
   const [statusDisplay, setStatusDisplay] = useState(true);
-  
-  console.log("ogogo")
 
+  useEffect(() => {
+    svGetCateById(slcEdit).then((res) => {
+      const resData = res.data.data
+      console.log(resData)
+      setImagePreview(resData.image)
+      setTitle(resData.title)
+      setDescription(resData.description)
+      setKeyword(resData.keywords)
+      setSlug(resData.slug)
+      setLink(resData.link)
+      setMetaTitle(resData.meta_title || "")
+      setMetaDescription(resData.meta_description|| "")
+      setMetaKeyword(resData.meta_keyword|| "")
+      setMetaH1(resData.h1|| "")
+      setMetaH2(resData.h2|| "")
+      setPriority(resData.priority|| "")
+      setStatusDisplay(Boolean(resData.status_display))
+      // console.log(res.data.data);
+    }) 
+  }, [])
+
+  // useEffect(() => {
+  //   console.log(statusDisplay)
+  // })
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -98,7 +121,7 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
     >
       <Box sx={style}>
         <div className="flex justify-between mb-4">
-          <p>Add Category</p>
+          <p>Edit Category</p>
           <button className="text-[30px] leading-[10px]" onClick={handleClose}>x</button>
         </div>
 
@@ -106,16 +129,6 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
           <div className='p-3 flex max-lg:flex-col gap-4 '>
             <div className="border w-[250px] p-2 rounded-md">
               <h3 className="mb-4">All Category</h3>
-              {/* <div>
-                <div className="flex items-center gap-1">
-                  <Checkbox value="1" onClick={handleCheckboxClick} {...label} />
-                  <label htmlFor="checkcate">หมวดหมู่หลัก</label>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Checkbox value="2" onClick={handleCheckboxClick} {...label} />
-                  <label htmlFor="checkcate">หมวดหมู่ที่ 1</label>
-                </div>
-              </div> */}
                <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="category"
@@ -130,7 +143,12 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
                         title={`parent ${cate.parent_id} | position ${cate.position}`} 
                         value={cate.id}
                         position={cate.position} 
-                        control={<Radio data-position={cate.position} />} 
+                        control={
+                          <Radio 
+                            data-position={cate.position}
+                            checked={cate.parent_id === cate.id}
+                          />
+                        } 
                         label={`หมวดหมู่ ${cate.title}`}
                         style={cate.position === 1 ? { marginLeft: '5px' } : {}}
                       />
@@ -234,16 +252,17 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
                   <div className="w-24 p-1 border flex items-center flex-col gap-2">
                     <label htmlFor="">แสดงผล</label>
                     <Switch
-                      // checked={statusDisplay}
+                      checked={statusDisplay}
                       onChange={(e) => setStatusDisplay(e.target.checked)}
                       {...label}
-                      defaultChecked={statusDisplay}
+                      // defaultChecked={statusDisplay}
                     />
                   </div>
 
                   <div className="w-24 p-1 border flex items-center flex-col gap-2">
                     <label htmlFor="">priority</label>
-                    <TextInput 
+                    <input 
+                      className="w-full focus-none rounded-md" 
                       style={{width: '100%'}}
                       type="number" min="0"
                       value={priority}

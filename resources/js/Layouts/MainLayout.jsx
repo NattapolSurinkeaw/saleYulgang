@@ -8,6 +8,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import GradeIcon from '@mui/icons-material/Grade';
 import { menuData } from '@/services/menu/menu.services';
 import ModalProfile from '@/Components/modalProfile/ModalProfile';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function MainLayout({ children, auth }) {
     // console.log(menuData)
@@ -26,7 +27,6 @@ export default function MainLayout({ children, auth }) {
                                 <div className="">=</div>
                                 <p className="">{menu.main_menu}</p>
                             </div>
-
                             {/* main menu  */}
                             { 
                                 menu.sub_menu?.map((submenu) => (
@@ -58,10 +58,13 @@ export default function MainLayout({ children, auth }) {
                 }
             </div>
         </div>
-        <div className="w-10/12 max-md:w-[90%] mt-2 flex flex-col gap-5">
+        {/* <div className="w-10/12 max-md:w-[90%] mt-2 flex flex-col gap-5"> */}
+        <div className="w-full mr-5 mt-2 flex flex-col gap-5">
             <div className="bg-white h-[65px] rounded-[10px] px-4 flex justify-between items-center shadow-lg">
                 <div>
-                    <button onClick={() => setHandleNav(!handleNav)}>กด</button>
+                    <button onClick={() => setHandleNav(!handleNav)}>
+                        <MenuIcon />
+                    </button>
                 </div>
                 <div className="flex gap-2 items-center relative">
                     <p>{auth?.user.name}</p>

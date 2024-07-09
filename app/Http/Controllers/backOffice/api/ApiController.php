@@ -26,15 +26,16 @@ class ApiController extends Controller
         $newFolder = "upload/" . date('Y') . "/" . date('m') . "/" . date('d') . "/";
         $imageCate = (isset($param['imageCate'])) ? $this->uploadImage($newFolder, $param['imageCate'], "", "", time()) : "";
 
+
         $cate = Category::create([
             'title' => $param['title'],
             'description' => $param['description'],
             'keywords' =>  $param['keyword'],
             'slug' =>  $param['slug'],
             'link' =>  $param['link'],
-            'image' =>  $imageCate,
+            'image' =>  "/".$imageCate,
             'parent_id' =>  $param['cate'],
-            'position' =>  0,
+            'position' =>  ($param['cate'] == 0) ? 0 : 1 ,
             'meta_title' =>  $param['meta_title'],
             'meta_description' =>  $param['meta_description'],
             'meta_keywords' =>  $param['meta_keyword'],
@@ -48,6 +49,21 @@ class ApiController extends Controller
             'status' => 'success',
             'data' => $cate
         ], 201);
+    }
+
+    public function getCateById($id) {
+        $cate = Category::find($id);
+        if(!$cate) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'category not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $cate
+        ], 200);
     }
 
     public function deleteCategory($id) {

@@ -106,23 +106,12 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
           <div className='p-3 flex max-lg:flex-col gap-4 '>
             <div className="border w-[250px] p-2 rounded-md">
               <h3 className="mb-4">All Category</h3>
-              {/* <div>
-                <div className="flex items-center gap-1">
-                  <Checkbox value="1" onClick={handleCheckboxClick} {...label} />
-                  <label htmlFor="checkcate">หมวดหมู่หลัก</label>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Checkbox value="2" onClick={handleCheckboxClick} {...label} />
-                  <label htmlFor="checkcate">หมวดหมู่ที่ 1</label>
-                </div>
-              </div> */}
                <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="category"
                   name="radio-buttons-group"
                   onChange={handleRadioChange}
                 >
-                  <FormControlLabel title={'parent 0'} value="0" control={<Radio />} label="หมวดหมู่หลัก" />
                   { 
                     cateData.map((cate) => (
                       <FormControlLabel 
@@ -131,7 +120,7 @@ export default function ModalAddCate({open, handleOpen, handleClose, cateData, s
                         value={cate.id}
                         position={cate.position} 
                         control={<Radio data-position={cate.position} />} 
-                        label={`หมวดหมู่ ${cate.title}`}
+                        label={`${cate.title}`}
                         style={cate.position === 1 ? { marginLeft: '5px' } : {}}
                       />
                     ))

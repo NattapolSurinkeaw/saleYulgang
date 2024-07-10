@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 // import Typography from '@mui/material/Typography';
 // import PrimaryButton from '@/Components/PrimaryButton';
 import { useState, useRef, useEffect } from 'react';
-import { svGetCateById } from '@/services/menu/menu.services';
+import { svGetCateById, svGetEditCate } from '@/services/menu/menu.services';
 import TextInput from '@/Components/TextInput';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -41,11 +41,14 @@ export default function ModalEditCate({open, handleOpen, handleClose, cateData, 
   const [metaH2, setMetaH2] = useState("");
   const [priority, setPriority] = useState(1);
   const [statusDisplay, setStatusDisplay] = useState(true);
+  const [parenId, setParenId] = useState();
+  const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     svGetCateById(slcEdit).then((res) => {
       const resData = res.data.data
       console.log(resData)
+      setCategory(resData.parent_id)
       setImagePreview(resData.image)
       setTitle(resData.title)
       setDescription(resData.description)
@@ -59,13 +62,14 @@ export default function ModalEditCate({open, handleOpen, handleClose, cateData, 
       setMetaH2(resData.h2|| "")
       setPriority(resData.priority|| "")
       setStatusDisplay(Boolean(resData.status_display))
-      // console.log(res.data.data);
+      setParenId(resData.parent_id)
     }) 
   }, [])
 
-  // useEffect(() => {
-  //   console.log(statusDisplay)
-  // })
+  useEffect(() => {
+    console.log(parenId)
+    console.log(typeof(parenId))
+  }, [parenId])
   
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -76,9 +80,7 @@ export default function ModalEditCate({open, handleOpen, handleClose, cateData, 
   };
 
   const handleRadioChange = (event) => {
-    const selectedValue = event.target.value;
-    console.log(event.target)
-    setCategory([selectedValue]); // อัปเดต state ให้เป็น array ที่มีค่า selectedValue
+    setParenId(event.target.value);
   };
 
   const submit = () => {
@@ -103,7 +105,8 @@ export default function ModalEditCate({open, handleOpen, handleClose, cateData, 
       console.log(key, " : ", value);
     });
 
-    svPostCate(formData).then((res) => {
+    return false;
+    svGetEditCate(formData).then((res) => {
       console.log(res.data.status)
       if(res.data.status == 'success') {
         setCateData(prevCateData => [...prevCateData, res.data.data]);
@@ -129,32 +132,28 @@ export default function ModalEditCate({open, handleOpen, handleClose, cateData, 
           <div className='p-3 flex max-lg:flex-col gap-4 '>
             <div className="border w-[250px] p-2 rounded-md">
               <h3 className="mb-4">All Category</h3>
-               <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="category"
-                  name="radio-buttons-group"
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel title={'parent 0'} value="0" control={<Radio />} label="หมวดหมู่หลัก" />
-                  { 
-                    cateData.map((cate) => (
-                      <FormControlLabel 
-                        key={cate.id} 
-                        title={`parent ${cate.parent_id} | position ${cate.position}`} 
-                        value={cate.id}
-                        position={cate.position} 
-                        control={
-                          <Radio 
-                            data-position={cate.position}
-                            checked={cate.parent_id === cate.id}
-                          />
-                        } 
-                        label={`หมวดหมู่ ${cate.title}`}
-                        style={cate.position === 1 ? { marginLeft: '5px' } : {}}
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                name="radio-buttons-group"
+                value={selectedValue}
+                onChange={handleRadioChange}
+              >
+                {cateData.map((cate) => (
+                  <FormControlLabel 
+                    key={cate.id} 
+                    title={`parent ${cate.parent_id} | position ${cate.position}`} 
+                    value={cate.id}
+                    control={
+                      <Radio 
+                        data-position={cate.position}
+                        checked={cate.id.toString() == parenId}
                       />
-                    ))
-                  }
-                </RadioGroup>
+                    } 
+                    label={`${cate.title}`}
+                    style={cate.position === 2 ? { marginLeft: '5px' } : {}}
+                  />
+                ))}
+              </RadioGroup>
             </div>
             <div className="w-full flex flex-col gap-4">
               <div className="p-4 border rounded-md flex gap-4">

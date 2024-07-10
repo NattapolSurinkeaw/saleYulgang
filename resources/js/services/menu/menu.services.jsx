@@ -84,6 +84,10 @@ export const svGetCateById = (id) => {
   return axios.get(`/getCateId/${id}`).then((res) => res).catch((error) => error)
 }
 
+export const svGetEditCate = (id, param) => {
+  return axios.post(`/editCate/${id}`, param).then((res) => res).catch((error) => console.log(error))
+}
+
 export const svDeleteCate = (id) => {
   return axios.delete(`/deleteCate/${id}`).then((res) => res).catch((error) => error)
 }

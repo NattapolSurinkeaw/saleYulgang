@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('description');
             $table->string('keywords');
             $table->string('slug');
             $table->string('icon')->nullable();
@@ -33,7 +34,26 @@ return new class extends Migration
         });
 
         DB::table('categories')->insert([
-            
+            [
+                'id' => 1,
+                'title' => "หมวดหมู่หลัก",
+                'description' => "หมวดหมู่หลัก",
+                'keywords' => "หมวดหมู่หลัก",
+                'slug' => "หมวดหมู่หลัก",
+                'icon' => "",
+                'link' => "หมวดหมู่หลัก",
+                'image' => "",
+                'parent_id' => "1",
+                'position' => "1",
+                'meta_title' => "",
+                'meta_description' => "",
+                'meta_keywords' => "",
+                'h1' => "",
+                'h2' => "",
+                'priority' => 1,
+                'status_display' => true,
+
+            ]
         ]);
     }
 

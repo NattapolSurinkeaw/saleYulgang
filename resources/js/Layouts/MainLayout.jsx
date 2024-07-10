@@ -42,11 +42,11 @@ export default function MainLayout({ children, auth }) {
                                     {submenu.menu_list?.length > 0 && (
                                         <ul className="flex flex-col gap-1 pl-10">
                                         {/* list sub menu  */}
-                                        {submenu.menu_list.map((list) => (
+                                        {/* {submenu.menu_list.map((list) => (
                                             <li key={list.id} className="flex gap-1 pl-4">
                                             <GradeIcon /> {list.list_name}
                                             </li>
-                                        ))}
+                                        ))} */}
                                         </ul>
                                     )}
                                     </div>

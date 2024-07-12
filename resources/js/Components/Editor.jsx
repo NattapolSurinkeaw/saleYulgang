@@ -10,18 +10,18 @@ export default function Editor({ value, onChange }) {
         editor={ClassicEditor}
         data={value}
         onChange={(event, editor) => {
-            const data = editor.getData();
-            onChange(data);
+          const data = editor.getData();
+          onChange(data);
         }}
         config={{
           toolbar: [
-              'heading', '|',
-              'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
-              'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-              'undo', 'redo'
+            'heading', '|',
+            'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+            'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+            'undo', 'redo'
           ],
           table: {
-              contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
           }
         }}
     />

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import { useState, useRef } from 'react';
 import { svPostCate } from '@/services/menu/menu.services';
+import { svAddProdcut } from '@/services/product/product.service';
 import TextInput from '@/Components/TextInput';
 import Editor from '@/Components/Editor';
 
@@ -22,7 +23,7 @@ const style = {
 
 export default function CreateProduct({open, handleClose, cateProduct}) {
   const ImageRef = useRef([]);
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState(1);
   const [imagePreview, setImagePreview] = useState("/image/no-image.png");
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState(1);
@@ -30,28 +31,32 @@ export default function CreateProduct({open, handleClose, cateProduct}) {
 
   const [content, setContent] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
+  const [ selectFiles, setSelectedFiles] = useState([]);
 
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
     const images = files.map((file) => URL.createObjectURL(file));
     setSelectedImages(images);
+    setSelectedFiles(files); // เก็บไฟล์ใน state สำหรับ formData
   };
 
  
   const submit = () => {
-    console.log(ImageRef.current.files[0])
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("imageCate", ImageRef.current.files[0]);
-    formData.append("category", category);
-    formData.append("priority", priority);
+    formData.append("cate_id", category);
+    formData.append("description", content);
     formData.append("status_display", statusDisplay);
-
+    formData.append("priority", priority);
+    selectFiles.forEach((file, index) => {
+      formData.append('images[]', file); // เพิ่มรูปภาพลงใน formData
+    });
+    
     formData.forEach((value, key) => {
       console.log(key, " : ", value);
     });
 
-    svPostCate(formData).then((res) => {
+    svAddProdcut(formData).then((res) => {
       console.log(res.data.status)
       if(res.data.status == 'success') {
         setCateData(prevCateData => [...prevCateData, res.data.data]);
@@ -118,10 +123,10 @@ export default function CreateProduct({open, handleClose, cateProduct}) {
 
                 <Editor value={content} onChange={setContent} />
 
-                <select name="" value={category} id="">
+                <select name="" onChange={(e) => setCategory(e.target.value)} value={category} id="">
                   {
                     cateProduct.map(cate => (
-                      <option key={cate.id} value="">{cate.title}</option>
+                      <option key={cate.id} value={cate.id}>{cate.title}</option>
                     ))
                   }
                 </select>

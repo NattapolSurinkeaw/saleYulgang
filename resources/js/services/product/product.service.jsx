@@ -5,6 +5,10 @@ export const svGetProductall = () => {
   return axios.get('/productall').then((res) => res).catch((err) => err)
 }
 
+export const svAddProdcut = (params) => {
+  return axios.post('/add-product', params).then((res) => res).catch((err) => err)
+}
+
 
 // cate
 export const svGetCateAll = () => {

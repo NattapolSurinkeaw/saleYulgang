@@ -19,7 +19,7 @@ export default function Product({auth}) {
       renderCell: (params) => {
         const firstImage = params.formattedValue.split(',')[0];
         return (
-          <img className="w-40 h-20" src={firstImage} alt="Preview" />
+          <img className="w-40 h-20" src={`/${firstImage}`} alt="Preview" />
         );
       }
     },
@@ -49,15 +49,17 @@ export default function Product({auth}) {
       setProdcut(res.data.data)
     })
     svGetCateAll().then((res) => {
-      console.log(res)
       setCateProduct(res.data.data)
     })
   }, [])
+
+  useEffect(() => {
+    console.log(products)
+  }, []);
   
   const handleEdit = (id) => {
     setOpenEdit(true)
     setSlcProduct(id)
-    // alert(`แก้ไข item id: ${id}`);
   };
 
   return (

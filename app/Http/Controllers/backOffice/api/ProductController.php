@@ -30,7 +30,33 @@ class ProductController extends Controller
     }
 
     public function getAllProduct() {
-        $product = Product::where('status_display', 1)->get();
+        $product = Product::all();
+
+        return $this->responseData($product);
+    }
+
+    public function createProduct(Request $request) {
+        $params = $request->all();
+        $files = $request->file('images');
+        $images[] = array();
+        foreach ($files as $file) {
+            $newFolder = "upload/" . date('Y') . "/" . date('m') . "/" . date('d') . "/";
+            $pathImage = (isset($file)) ? $this->uploadImage($newFolder, $file, "", "", time()) : "";
+            $images[] = $pathImage;
+        }
+        $images = array_filter($images, function($value) {
+            return !empty($value);
+        });
+        $allPath = implode(",", $images);
+
+        $product = Product::create([
+            'title' => $params['title'],
+            'cate_id' => $params['cate_id'],
+            'description' => $params['description'],
+            'images' => $allPath,
+            'status_display' => ($params['status_display'] == 1)? true : false,
+            'priority' => $params['priority']
+        ]);
 
         return $this->responseData($product);
     }

@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('cate_id')->constrained('cate_products')->onDelete('cascade');
-            $table->string('description');
+            $table->text('description');
+            $table->text('images');
+            $table->integer('priority');
             $table->boolean('status_display');
-            $table->string('images');
             $table->timestamps();
         });
     }

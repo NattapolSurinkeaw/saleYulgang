@@ -22,9 +22,9 @@ export default function MainLayout({ children, auth }) {
             <div className="">
                 {
                     menuData.map((menu) => (
-                        <div key={menu.id} className="flex flex-col gap-2 mb-4">
-                            <div className="flex gap-2 text-[#bcbfc1]">
-                                <div className="">=</div>
+                        <div key={menu.id} className="flex flex-col gap-2 mb-5">
+                            <div className="flex items-center gap-1 text-[#bcbfc1]">
+                                <div className="w-[15px] h-[2px] bg-gray-300"></div>
                                 <p className="">{menu.main_menu}</p>
                             </div>
                             {/* main menu  */}

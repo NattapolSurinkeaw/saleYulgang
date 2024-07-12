@@ -1,5 +1,6 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
+import CategoryIcon from '@mui/icons-material/Category';
 import axios from 'axios';
 
 export const menuData = [
@@ -58,11 +59,24 @@ export const menuData = [
     ]
   },
   {
-    id: 3,
+    id: 4,
+    main_menu : "Products",
+    sub_menu : [
+      {
+        id: 5,
+        name: "ProductManagement",
+        icon: <CategoryIcon />,
+        link: "/backoffice/product",
+        status_display: true,
+      }
+    ]
+  },
+  {
+    id: 6,
     main_menu : "User",
     sub_menu : [
       {
-        id: 4,
+        id: 7,
         name: "ManageProfile",
         icon: <DashboardIcon />,
         link: "/backoffice/profile",

@@ -31,6 +31,8 @@ Route::prefix('/backoffice')->middleware(['auth', 'verified'])->group(function (
     Route::get('/page', [BackOfficePagesController::class, 'managePage']);
     Route::get('/profile', [BackOfficePagesController::class, 'manageProfile']);
     Route::get('/category', [BackOfficePagesController::class, 'manageCategory']);
+
+    Route::get('/product', [BackOfficePagesController::class, 'manageProduct']);
 });
 
 Route::middleware('auth')->group(function () {

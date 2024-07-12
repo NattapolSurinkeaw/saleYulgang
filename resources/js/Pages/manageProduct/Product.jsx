@@ -1,16 +1,28 @@
 import React from 'react'
 import MainLayout from '@/Layouts/MainLayout'
 import DataGridMock from '@/Components/datagrid/DataGridMock'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CreateProduct from './components/CreateProduct';
 import EditProduct from './components/EditProduct';
+import { svGetCateAll, svGetProductall } from '@/services/product/product.service';
 
 export default function Product({auth}) {
   
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Name', width: 300 },
-    { field: 'email', headerName: 'Email', width: 300 },
+    { field: 'title', headerName: 'Title', width: 300 },
+    { field: 'description', headerName: 'Description', width: 300 },
+    { 
+      field: 'images', 
+      headerName: 'Image', 
+      width: 200,
+      renderCell: (params) => {
+        const firstImage = params.formattedValue.split(',')[0];
+        return (
+          <img className="w-40 h-20" src={firstImage} alt="Preview" />
+        );
+      }
+    },
     { 
       field: 'action', 
       headerName: 'Action', 
@@ -22,31 +34,25 @@ export default function Product({auth}) {
       )
     },
   ];
-  
-  const rows = [
-    { id: 1, name: 'John Doe', email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 3, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 4, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 5, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 6, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 7, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 8, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 9, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 10, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 11, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 12, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 13, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 14, name: 'Jane Smith', email: 'jane@example.com' },
-    { id: 15, name: 'Jane Smith', email: 'jane@example.com'},
-    { id: 16, name: 'Jane Smith', email: 'jane@example.com'},
-  ];
 
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [slcProduct, setSlcProduct] = useState(null);
+  const [products, setProdcut] = useState([]);
+  const [cateProduct, setCateProduct] = useState([]);
+
   const handleCloseCreate = () => setOpenCreate(false);
   const handleCloseEdit = () => setOpenEdit(false);
+
+  useEffect(() => {
+    svGetProductall().then((res) => {
+      setProdcut(res.data.data)
+    })
+    svGetCateAll().then((res) => {
+      console.log(res)
+      setCateProduct(res.data.data)
+    })
+  }, [])
   
   const handleEdit = (id) => {
     setOpenEdit(true)
@@ -63,19 +69,20 @@ export default function Product({auth}) {
           onClick={() => setOpenCreate(true)}
         >create Product</button>
       </div>
+      
       <div>
-        <DataGridMock columns={columns} rows={rows} />
+        <DataGridMock columns={columns} rows={products} />
       </div>
 
       {
         openCreate && (
-          <CreateProduct open={openCreate} handleClose={handleCloseCreate}  />
+          <CreateProduct open={openCreate} handleClose={handleCloseCreate}  cateProduct={cateProduct} />
         )
       }
 
       {
         openEdit && (
-          <EditProduct open={openEdit} handleClose={handleCloseEdit} id={slcProduct} />
+          <EditProduct open={openEdit} handleClose={handleCloseEdit} id={slcProduct} cateProduct={cateProduct} />
         )
       }
     </MainLayout>

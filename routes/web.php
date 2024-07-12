@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\frontOffice\PagesController as FrontOfficePagesController;
 use App\Http\Controllers\backoffice\api\ApiController;
+use App\Http\Controllers\backoffice\api\ProductController;
 
 Route::get('/', [FrontOfficePagesController::class, 'index']);
 
@@ -48,5 +49,8 @@ Route::post('/postcate', [ApiController::class, 'createCatetegory']);
 Route::get('/getCateId/{id}', [ApiController::class, 'getCateById']);
 Route::get('/editCate/{id}', [ApiController::class, 'getEditCate']);
 Route::delete('/deleteCate/{id}', [ApiController::class, 'deleteCategory']);
+
+Route::get('/productall', [ProductController::class, 'getAllProduct']);
+Route::get('/productcate', [ProductController::class, 'getCateAll']);
 
 require __DIR__.'/auth.php';

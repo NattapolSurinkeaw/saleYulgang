@@ -1,16 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
-// import Typography from '@mui/material/Typography';
-// import PrimaryButton from '@/Components/PrimaryButton';
 import { useState, useRef } from 'react';
 import { svPostCate } from '@/services/menu/menu.services';
 import TextInput from '@/Components/TextInput';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Editor from '@/Components/Editor';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const style = {
@@ -25,55 +20,31 @@ const style = {
   borderRadius: 1,
 };
 
-export default function CreateProduct({open, handleClose}) {
+export default function CreateProduct({open, handleClose, cateProduct}) {
   const ImageRef = useRef([]);
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState();
   const [imagePreview, setImagePreview] = useState("/image/no-image.png");
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [keyword, setKeyword] = useState("");
-  const [slug, setSlug] = useState("");
-  const [link, setLink] = useState("");
-  const [metaTitle, setMetaTitle] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
-  const [metaKeyword, setMetaKeyword] = useState("");
-  const [metaH1, setMetaH1] = useState("");
-  const [metaH2, setMetaH2] = useState("");
   const [priority, setPriority] = useState(1);
   const [statusDisplay, setStatusDisplay] = useState(true);
-  
-  console.log("ogogo")
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setImagePreview(imageURL);
-    }
+  const [content, setContent] = useState('');
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const handleImageChange = (event) => {
+    const files = Array.from(event.target.files);
+    const images = files.map((file) => URL.createObjectURL(file));
+    setSelectedImages(images);
   };
 
-  const handleRadioChange = (event) => {
-    const selectedValue = event.target.value;
-    console.log(event.target)
-    setCategory([selectedValue]); // อัปเดต state ให้เป็น array ที่มีค่า selectedValue
-  };
-
+ 
   const submit = () => {
     console.log(ImageRef.current.files[0])
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("description", description);
-    formData.append("keyword", keyword);
-    formData.append("slug", slug);
-    formData.append("link", link);
-    formData.append("cate", category);
-    formData.append("meta_title", metaTitle);
-    formData.append("meta_description", metaDescription);
-    formData.append("meta_keyword", metaKeyword);
-    formData.append("meta_h1", metaH1);
-    formData.append("meta_h2", metaH2);
-    formData.append("priority", priority);
     formData.append("imageCate", ImageRef.current.files[0]);
+    formData.append("category", category);
+    formData.append("priority", priority);
     formData.append("status_display", statusDisplay);
 
     formData.forEach((value, key) => {
@@ -104,119 +75,65 @@ export default function CreateProduct({open, handleClose}) {
 
         <div className="w-full h-[480px] overflow-auto border">
           <div className='p-3 flex max-lg:flex-col gap-4 '>
-            {/* <div className="border w-[250px] p-2 rounded-md">
-              <h3 className="mb-4">All Category</h3>
-               <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="category"
-                  name="radio-buttons-group"
-                  onChange={handleRadioChange}
-                >
-                  { 
-                    cateData.map((cate) => (
-                      <FormControlLabel 
-                        key={cate.id} 
-                        title={`parent ${cate.parent_id} | position ${cate.position}`} 
-                        value={cate.id}
-                        position={cate.position} 
-                        control={<Radio data-position={cate.position} />} 
-                        label={`${cate.title}`}
-                        style={cate.position === 1 ? { marginLeft: '5px' } : {}}
-                      />
-                    ))
-                  }
-                </RadioGroup>
-            </div> */}
             <div className="w-full flex flex-col gap-4">
               <div className="p-4 border rounded-md flex gap-4">
-                <div className="w-[150px] h-[122px] border p-1 hover:scale-[0.95] duration-300 cursor-pointer">
-                  <label htmlFor="imageCate">
-                    <img 
-                      className="w-full h-full rounded-sm" 
-                      // src="/image/no-image.png" 
-                      src={imagePreview} 
-                      alt=""
+                <div className="flex flex-wrap gap-4">
+                  {selectedImages.map((image, index) => (
+                    <div key={index} className="w-[150px] h-[122px] border p-1">
+                      <img
+                        className="w-full h-full rounded-sm"
+                        src={image}
+                        alt={`preview-${index}`}
+                      />
+                    </div>
+                  ))}
+                  <div className="w-[150px] h-[122px] border p-1 hover:scale-[0.95] duration-300 cursor-pointer">
+                    <label htmlFor="imageCate">
+                      <img
+                        className="w-full h-full rounded-sm"
+                        src="/image/no-image.png"
+                        alt="preview-image"
+                      />
+                    </label>
+                    <input
+                      id="imageCate"
+                      type="file"
+                      className="hidden"
+                      multiple
+                      onChange={handleImageChange}
                     />
-                  </label>
-                  <input 
-                    id="imageCate" type="file" 
-                    className="hidden" 
-                    ref={ImageRef}
-                    onChange={handleFileChange}
-                  />
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <input 
-                    className="w-full focus-none rounded-md" 
-                    placeholder="Title" type="text" />
-                  <input className="w-full focus-none rounded-md" placeholder="alt" type="text" />
-                </div>
+                
               </div>
+
               <div className="flex flex-col gap-2">
                 <label htmlFor="">ลายละเอียด</label>
                 <input 
                   value={title} 
                   onChange={(e) => setTitle(e.target.value)}
                   className="w-full focus-none rounded-md" 
-                  placeholder="Title" type="text" />
-                <input 
+                  placeholder="Title" type="text" 
+                />
+
+                <Editor value={content} onChange={setContent} />
+
+                <select name="" value={category} id="">
+                  {
+                    cateProduct.map(cate => (
+                      <option key={cate.id} value="">{cate.title}</option>
+                    ))
+                  }
+                </select>
+                
+                {/* <input 
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full focus-none rounded-md" 
                   placeholder="Description" type="text" 
-                />
-                <input 
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="Keyword" type="text" 
-                />
-                <input 
-                  value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="Slug" type="text" 
-                />
-                <input 
-                  value={link}
-                  onChange={(e) => setLink(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="Link" type="text"
-                />
+                /> */}
               </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="">Web SEO</label>
-                <input 
-                  value={metaTitle}
-                  onChange={(e) => setMetaTitle(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="Title" type="text" 
-                />
-                <input 
-                  value={metaDescription}
-                  onChange={(e) => setMetaDescription(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="Description" type="text" 
-                />
-                <input 
-                  value={metaKeyword}
-                  onChange={(e) => setMetaKeyword(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="Keyword" type="text" 
-                />
-                <input 
-                  value={metaH1}
-                  onChange={(e) => setMetaH1(e.target.value)}
-                  className="w-full focus-none rounded-md" 
-                  placeholder="h1" type="text" 
-                />
-                <TextInput 
-                  value={metaH2}
-                  onChange={(e) => setMetaH2(e.target.value)}
-                  placeholder="h2"
-                />
-              </div>
-
+              
               <div>
                 <p className="mb-2">ตั้งหมวด category</p>
                 <div className="flex gap-4">

@@ -52,6 +52,10 @@ Route::delete('/deleteCate/{id}', [ApiController::class, 'deleteCategory']);
 
 Route::get('/productall', [ProductController::class, 'getAllProduct']);
 Route::get('/productcate', [ProductController::class, 'getCateAll']);
+Route::get('/product/{id}', [ProductController::class, 'getProductById']);
 Route::post('/add-product', [ProductController::class, 'createProduct']);
+Route::post('/edit-product/{id}', [ProductController::class, 'editProduct']);
+Route::delete('/delProduct/{id}', [ProductController::class, 'delProduct']);
+
 
 require __DIR__.'/auth.php';

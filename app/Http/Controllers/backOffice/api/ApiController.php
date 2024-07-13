@@ -79,7 +79,6 @@ class ApiController extends Controller
 
         $newFolder = "upload/" . date('Y') . "/" . date('m') . "/" . date('d') . "/";
         $imageCate = (isset($param['imageCate'])) ? $this->uploadImage($newFolder, $param['imageCate'], "", "", time()) : "";
-
         $cate = Category::create([
             'title' => $param['title'],
             'description' => $param['description'],
@@ -95,7 +94,7 @@ class ApiController extends Controller
             'h1' =>  $param['meta_h1'],
             'h2' =>  $param['meta_h2'],
             'priority' =>  $param['priority'],
-            'status_display' =>  ($param['status_display'] == 'true')? 1 : 0,
+            'status_display' =>  ($param['status_display'] == '1')? 1 : 0,
         ]);
 
         return response()->json([

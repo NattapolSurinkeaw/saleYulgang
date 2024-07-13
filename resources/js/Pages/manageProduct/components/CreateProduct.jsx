@@ -21,7 +21,7 @@ const style = {
   borderRadius: 1,
 };
 
-export default function CreateProduct({open, handleClose, cateProduct}) {
+export default function CreateProduct({open, handleClose, cateProduct, setProdcut}) {
   const ImageRef = useRef([]);
   const [category, setCategory] = useState(1);
   const [imagePreview, setImagePreview] = useState("/image/no-image.png");
@@ -59,7 +59,7 @@ export default function CreateProduct({open, handleClose, cateProduct}) {
     svAddProdcut(formData).then((res) => {
       console.log(res.data.status)
       if(res.data.status == 'success') {
-        setCateData(prevCateData => [...prevCateData, res.data.data]);
+        setProdcut(prevCateData => [...prevCateData, res.data.data]);
         handleClose()
       }
     })

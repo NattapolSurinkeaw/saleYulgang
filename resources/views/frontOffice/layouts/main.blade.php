@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
 </head>
 <body>
   @include('frontOffice.layouts.navbar')
-  <div >
+  <div class=" max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     @yield('content')
   </div>
 
@@ -32,5 +33,16 @@
   </div>
 
   @yield('scripts')
+  <script>
+    const navbar_default = document.querySelector('#navbar-default');
+    const btn_show = document.querySelector('#btn_show');
+    btn_show.addEventListener('click', () => {
+      if(navbar_default.classList.contains('hidden')) {
+        navbar_default.classList.remove('hidden')
+      } else {
+        navbar_default.classList.add('hidden')
+      }
+    })
+  </script>
 </body>
 </html>

@@ -39,4 +39,24 @@ abstract class Controller
         }
         return File::exists(public_path($path));
     }
+
+    public function responseData($data) {
+        if(!$data) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'data not found'
+            ], 404);
+        }
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+    }
+
+    public function responseMessage($message) {
+        return response()->json([
+            'status' => 'success',
+            'message' => $message
+        ], 200);
+    }
 }

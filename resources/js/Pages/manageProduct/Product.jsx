@@ -4,14 +4,23 @@ import DataGridMock from '@/Components/datagrid/DataGridMock'
 import { useState, useEffect } from 'react';
 import CreateProduct from './components/CreateProduct';
 import EditProduct from './components/EditProduct';
-import { svGetCateAll, svGetProductall } from '@/services/product/product.service';
+import { svGetCateAll, svGetProductall, svDeleteProduct } from '@/services/product/product.service';
 
 export default function Product({auth}) {
   
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'title', headerName: 'Title', width: 300 },
-    { field: 'description', headerName: 'Description', width: 300 },
+    { field: 'title', headerName: 'Title', width: 200 },
+    { field: 'description', 
+      headerName: 'Description', 
+      width: 300,
+      renderCell: (params) => {
+        return (
+          <div dangerouslySetInnerHTML={{ __html: params.formattedValue }} />
+        )
+      } 
+    },
+    { field: 'priority', headerName: 'Priority', width: 70 },
     { 
       field: 'images', 
       headerName: 'Image', 
@@ -19,7 +28,7 @@ export default function Product({auth}) {
       renderCell: (params) => {
         const firstImage = params.formattedValue.split(',')[0];
         return (
-          <img className="w-40 h-20" src={`/${firstImage}`} alt="Preview" />
+          <img className="w-40 " src={`/${firstImage}`} alt="Preview" />
         );
       }
     },
@@ -28,9 +37,16 @@ export default function Product({auth}) {
       headerName: 'Action', 
       width: 200,
       renderCell: (params) => (
-        <button className="bg-yellow-500 p-1" onClick={() => handleEdit(params.row.id)}>
-          แก้ไข
-        </button>
+        <>
+          <div className="flex gap-2">
+            <button className="bg-yellow-600 text-white py-1 px-2" onClick={() => handleEdit(params.row.id)}>
+              แก้ไข
+            </button>
+            <button className="bg-red-600 text-white py-1 px-4" onClick={() => deleteProduct(params.row.id)}>
+              ลบ
+            </button>
+          </div>
+        </>
       )
     },
   ];
@@ -62,6 +78,15 @@ export default function Product({auth}) {
     setSlcProduct(id)
   };
 
+  const deleteProduct = (id) => {
+    svDeleteProduct(id).then((res) => {
+      if(res.data.status == 'success') {
+        setProdcut(prevProduct => prevProduct.filter(product => product.id !== id));
+      }
+      console.log(res)
+    })
+  }
+
   return (
     <MainLayout auth={auth}>
       <div className="mb-4 flex justify-between">
@@ -78,13 +103,13 @@ export default function Product({auth}) {
 
       {
         openCreate && (
-          <CreateProduct open={openCreate} handleClose={handleCloseCreate}  cateProduct={cateProduct} />
+          <CreateProduct open={openCreate} handleClose={handleCloseCreate} cateProduct={cateProduct} setProdcut={setProdcut} />
         )
       }
 
       {
         openEdit && (
-          <EditProduct open={openEdit} handleClose={handleCloseEdit} id={slcProduct} cateProduct={cateProduct} />
+          <EditProduct open={openEdit} handleClose={handleCloseEdit} id={slcProduct} cateProduct={cateProduct} setProdcut={setProdcut} />
         )
       }
     </MainLayout>

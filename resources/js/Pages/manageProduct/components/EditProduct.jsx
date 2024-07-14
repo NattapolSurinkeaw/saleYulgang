@@ -23,6 +23,7 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
   const [category, setCategory] = useState(1);
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState(1);
+  const [price, setPrice] = useState(0);
   const [statusDisplay, setStatusDisplay] = useState(true);
 
   const [content, setContent] = useState('');
@@ -38,11 +39,13 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
 
   useEffect(() => {
     svGetProductId(id).then((res) => {
+      console.log(res.data.data);
       const resData = res.data.data;
       setCategory(resData.cate_id);
       setTitle(resData.title);
       setContent(resData.description)
       setStatusDisplay(resData.status_display);
+      setPrice(resData.price);
 
       const splitImages = resData.images.split(',');
       const modifiedImages = splitImages.map(image => '/' + image);
@@ -50,11 +53,16 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
     })
   }, [])
 
+  useEffect(() => {
+    
+  }, [])
+
   const submit = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("cate_id", category);
     formData.append("description", content);
+    formData.append("price", price);
     formData.append("status_display", statusDisplay);
     formData.append("priority", priority);
     selectFiles.forEach((file, index) => {
@@ -144,12 +152,12 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
                   }
                 </select>
                 
-                {/* <input 
-                  value={description} 
-                  onChange={(e) => setDescription(e.target.value)}
+                <input 
+                  value={price} 
+                  onChange={(e) => setPrice(e.target.value)}
                   className="w-full focus-none rounded-md" 
                   placeholder="Description" type="text" 
-                /> */}
+                />
               </div>
               
               <div>

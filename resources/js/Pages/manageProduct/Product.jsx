@@ -20,6 +20,7 @@ export default function Product({auth}) {
         )
       } 
     },
+    { field: 'price', headerName: 'Price', width: 100 },
     { field: 'priority', headerName: 'Priority', width: 70 },
     { 
       field: 'images', 

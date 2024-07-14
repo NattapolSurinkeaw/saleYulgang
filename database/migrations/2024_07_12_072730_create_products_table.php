@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('cate_id')->constrained('cate_products')->onDelete('cascade');
             $table->text('description');
+            $table->integer('price');
             $table->text('images');
             $table->integer('priority');
             $table->boolean('status_display');

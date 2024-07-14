@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\File;
+// use view()->share('key', $value);
+use App\Models\CateProduct;
 
 abstract class Controller
 {
     //
+    public function __construct(Type $var = null) {
+        // $this->var = $var;
+        $cates = CateProduct::all();
+        view()->share('cates', $cates);
+    }
 
     public function uploadImage($folderPath= "upload/", $image = NULL, $preName="", $postName = "", $customName = NULL){
         if($image) {

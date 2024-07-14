@@ -10,6 +10,8 @@ use App\Http\Controllers\backoffice\api\ApiController;
 use App\Http\Controllers\backoffice\api\ProductController;
 
 Route::get('/', [FrontOfficePagesController::class, 'index']);
+Route::get('/สินค้า/{path}', [FrontOfficePagesController::class, 'filterPage']);
+Route::get('/รายละเอียด/{id}', [FrontOfficePagesController::class, 'detailProduct']);
 
 // Route::get('/backoffice', function () {
 //     return Inertia::render('Welcome', [

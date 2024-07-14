@@ -14,6 +14,7 @@ class Product extends Model
         'cate_id',
         'description',
         'images',
+        'price',
         'status_display',
         'priority',
     ];

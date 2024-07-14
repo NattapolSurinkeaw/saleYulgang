@@ -42,7 +42,7 @@ class ApiController extends Controller
             'h1' =>  $param['meta_h1'],
             'h2' =>  $param['meta_h2'],
             'priority' =>  $param['priority'],
-            'status_display' =>  ($param['status_display'] == 'true')? 1 : 0,
+            'status_display' =>  ($param['status_display'] == 'true' || $param['status_display'] == '1')? 1 : 0,
         ]);
 
         return response()->json([
@@ -94,7 +94,7 @@ class ApiController extends Controller
             'h1' =>  $param['meta_h1'],
             'h2' =>  $param['meta_h2'],
             'priority' =>  $param['priority'],
-            'status_display' =>  ($param['status_display'] == '1')? 1 : 0,
+            'status_display' => ($param['status_display'] == 'true' || $param['status_display'] == '1')? 1 : 0,
         ]);
 
         return response()->json([

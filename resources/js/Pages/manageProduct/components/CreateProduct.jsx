@@ -26,6 +26,7 @@ export default function CreateProduct({open, handleClose, cateProduct, setProdcu
   const [category, setCategory] = useState(1);
   const [imagePreview, setImagePreview] = useState("/image/no-image.png");
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
   const [priority, setPriority] = useState(1);
   const [statusDisplay, setStatusDisplay] = useState(true);
 
@@ -46,6 +47,7 @@ export default function CreateProduct({open, handleClose, cateProduct, setProdcu
     formData.append("title", title);
     formData.append("cate_id", category);
     formData.append("description", content);
+    formData.append("price", price);
     formData.append("status_display", statusDisplay);
     formData.append("priority", priority);
     selectFiles.forEach((file, index) => {
@@ -131,12 +133,12 @@ export default function CreateProduct({open, handleClose, cateProduct, setProdcu
                   }
                 </select>
                 
-                {/* <input 
-                  value={description} 
-                  onChange={(e) => setDescription(e.target.value)}
+                <input 
+                  value={price} 
+                  onChange={(e) => setPrice(e.target.value)}
                   className="w-full focus-none rounded-md" 
                   placeholder="Description" type="text" 
-                /> */}
+                />
               </div>
               
               <div>

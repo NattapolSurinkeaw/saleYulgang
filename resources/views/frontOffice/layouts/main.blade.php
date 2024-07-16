@@ -25,10 +25,10 @@
       <h1 id="closeModal" class="absolute top-0 right-0 w-6 h-6 bg-red-400 font-bold flex justify-center items-center text-white rounded-full text-2xl">&times;</h1>
       <h1>555</h1>
     </div>
-  </div>
+  </div> --}}
 
 
-  <div class="popup" id="popup-1">
+  {{-- <div class="popup" id="popup-1">
     <div class="overlay"></div>
     <div class="content" id="contentM">
       <div class="close-btn" id="closeM">&times;</div>

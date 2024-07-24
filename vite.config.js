@@ -11,6 +11,7 @@ export default defineConfig({
                     'resources/css/app.css',
                     'resources/css/modal.css',
                     'public/js/main.js',
+                    'public/js/detailProduct.js',
                     'public/css/modal.css',
             ],
             refresh: true,

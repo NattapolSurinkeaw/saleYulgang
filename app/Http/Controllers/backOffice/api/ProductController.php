@@ -43,7 +43,7 @@ class ProductController extends Controller
             'description' => $params['description'],
             'price' => $params['price'],
             'images' => $allPath,
-            'status_display' => ($params['status_display'] == 'true')? 1 : 0,
+            'status_display' => ($params['status_display'] == 'true' || $params['status_display'] == '1')? 1 : 0,
             'priority' => $params['priority']
         ]);
 
@@ -85,7 +85,7 @@ class ProductController extends Controller
             'description' => $params['description'],
             'price' => $params['price'],
             'images' => (isset($allPath)) ? $allPath : $product->images,
-            'status_display' => ($params['status_display'] == 'true') ? 1 : 0,
+            'status_display' => ($params['status_display'] == 'true' || $params['status_display'] == '1')? 1 : 0,
             'priority' => $params['priority']
         ]);
 

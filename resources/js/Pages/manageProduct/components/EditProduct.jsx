@@ -46,6 +46,7 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
       setContent(resData.description)
       setStatusDisplay(resData.status_display);
       setPrice(resData.price);
+      setPriority(resData.priority);
 
       const splitImages = resData.images.split(',');
       const modifiedImages = splitImages.map(image => '/' + image);

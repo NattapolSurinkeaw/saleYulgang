@@ -5,7 +5,7 @@
         @php 
           $image = explode(",", $product->images);
         @endphp
-        <div class="border rounded-lg p-2">
+        <div class="border rounded-lg p-2" id="box-product" data-id="{{$product->id}}">
           <img class="w-80 h-[200px] rounded-lg" src="{{url($image[0])}}" alt="">
           <div class="mt-2">
             <p class="text-xl">{{$product->title}}</p>
@@ -23,3 +23,9 @@
         @endforeach
       </div>
 </div>
+
+@section('scripts')
+<script>
+  const product = @json($products)
+</script>
+@endsection

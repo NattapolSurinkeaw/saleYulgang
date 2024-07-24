@@ -1,18 +1,22 @@
-// console.log(product)
+console.log(product)
 
-const defaultSearch = document.querySelector('#default-search');
+const defaultSearch = document.querySelectorAll('#default-search');
 const boxProduct = document.querySelectorAll('#box-product');
-defaultSearch.addEventListener("input", () => {
-  const valueSearch = defaultSearch.value
-  filterSearch(valueSearch)
-})
+defaultSearch.forEach(element => {
+  element.addEventListener("input", () => {
+    const valueSearch = element.value
+    console.log(valueSearch)
+    filterSearch(valueSearch)
+  })
+});
+
 
 const filterSearch = (valueSearch) => {
   // กรองผลิตภัณฑ์ตามค่าค้นหา
   const filteredProducts = product.filter((item) => 
     item.title.toLowerCase().includes(valueSearch.toLowerCase())
   );
-
+  console.log(filteredProducts)
   // วนลูปผ่าน boxProduct
   boxProduct.forEach(element => {
     const boxId = element.getAttribute("data-id");

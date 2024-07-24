@@ -39,23 +39,19 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
 
   useEffect(() => {
     svGetProductId(id).then((res) => {
-      console.log(res.data.data);
-      const resData = res.data.data;
-      setCategory(resData.cate_id);
-      setTitle(resData.title);
+      console.log(res.data.data)
+      const resData = res.data.data
+      setCategory(resData.cate_id)
+      setTitle(resData.title)
       setContent(resData.description)
       setStatusDisplay(resData.status_display);
       setPrice(resData.price);
       setPriority(resData.priority);
 
-      const splitImages = resData.images.split(',');
-      const modifiedImages = splitImages.map(image => '/' + image);
+      const splitImages = resData.images.split(',')
+      const modifiedImages = splitImages.map(image => '/' + image)
       setSelectedImages(modifiedImages)
     })
-  }, [])
-
-  useEffect(() => {
-    
   }, [])
 
   const submit = () => {
@@ -86,6 +82,7 @@ export default function EditProduct({open, handleClose, id, cateProduct, setProd
       }
     })
   }
+  
   return (
     <>
     <Modal

@@ -11,6 +11,6 @@
 </div>
 @endsection
 
-{{-- @section('scripts')
-@vite('public/js/main.js')
-@endsection --}}
+@section('scripts')
+  @vite('public/js/main.js')
+@endsection
